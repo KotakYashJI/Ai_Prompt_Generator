@@ -75,7 +75,7 @@ const Page = () => {
         <div>
           <button
             type="submit"
-            className="w-1/3 bg-blue-600 cursor-pointer mt-2 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+            className="w-1/3 bg-blue-600 cursor-pointer mt-4 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
           >
             Login
           </button>
