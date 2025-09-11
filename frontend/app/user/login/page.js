@@ -12,6 +12,7 @@ const Page = () => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -19,7 +20,7 @@ const Page = () => {
 
   const [Showpassword, setShowpassword] = useState(false);
 
-  console.log(Showpassword);
+  const password = watch("password");
 
   const handleLogin = (data) => {
     dispatch(loginuser(data));
@@ -59,14 +60,14 @@ const Page = () => {
             <div
               onClick={() => setShowpassword((prev) => !prev)}
               className="absolute bottom-2 cursor-pointer right-4 text-blue-600">
-              <FontAwesomeIcon icon={Showpassword ? faEye : faEyeSlash} />
+              {password?.length > 0 && <FontAwesomeIcon icon={Showpassword ? faEye : faEyeSlash} />}
             </div>
           </div>
           {errors.password && (
             <span className="text-red-500 text-sm">Password is required</span>
           )}
         </div>
-        
+
         <div className="text-xl">
           <p>Don&apos;t have an account please ...<Link className="text-blue-400" href="https://ai-prompt-generator-rosy-five.vercel.app/user/register"
           >Register</Link></p>

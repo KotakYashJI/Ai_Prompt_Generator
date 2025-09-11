@@ -13,7 +13,7 @@ export const registeruser = (user) => async (dispatch) => {
             draggable: false,
             pauseOnHover: false
         });
-        location.href = "https://ai-prompt-generator-rosy-five.vercel.app";
+        location.href = "http://localhost:3000";
     } catch (error) {
         toast.error(error.response.data.message, {
             autoClose: true,
@@ -56,7 +56,7 @@ export const loadloginuser = () => async (dispatch) => {
         const loggedinuser = await API.get("/user/logedinuser");
         dispatch(loadusers(loggedinuser.data.user));
     } catch (error) {
-        location.href = `http://ai-prompt-generator-rosy-five.vercel.app/user/login`
+        location.href = `http://localhost:3000/user/login`
         dispatch(loadusers(null));
         toast.error(error.response.data.message, {
             autoClose: true,
