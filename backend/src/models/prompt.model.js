@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const PromptSchema = mongoose.Schema({
-    chat: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
     prompt: {
         type: Array,
         required: true

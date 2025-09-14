@@ -30,7 +30,7 @@ export const loginuser = (user) => async (dispatch) => {
         const loginuser = await API.post("/user/login", user);
         console.log(loginuser);
         dispatch(loadusers(loginuser.data.isuserexist));
-        location.href = "https://ai-prompt-generator-rosy-five.vercel.app";
+        location.href = "http://localhost:3000";
         toast.success(loginuser.data.message, {
             autoClose: true,
             closeButton: false,
@@ -56,7 +56,7 @@ export const loadloginuser = () => async (dispatch) => {
         const loggedinuser = await API.get("/user/logedinuser");
         dispatch(loadusers(loggedinuser.data.user));
     } catch (error) {
-        location.href = `https://ai-prompt-generator-rosy-five.vercel.app/user/login`
+        location.href = `http://localhost:3000/user/login`
         dispatch(loadusers(null));
         toast.error(error.response.data.message, {
             autoClose: true,

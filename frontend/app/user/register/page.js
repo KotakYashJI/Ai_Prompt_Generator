@@ -119,7 +119,7 @@ const Page = () => {
         </div>
 
         <div className="text-xl">
-          <p>Aready have an account please ...<Link className="text-blue-400" href="https://ai-prompt-generator-rosy-five.vercel.app/user/login">Login</Link></p>
+          <p>Aready have an account please ...<Link className="text-blue-400" href="http://localhost:3000/user/login">Login</Link></p>
         </div>
 
         <div>

@@ -1,16 +1,18 @@
 import { loadanswers, loadquestions, updateloading } from "@/slices/message.slice";
 import { io } from "socket.io-client";
 import API from "../API/index.js"
+import { creatchat, updatechat } from "./chat.action.js";
 
 let questions = [];
 let answers = [];
 let socket;
 let initailized = false;
+let count = 0;
 
 async function initsocket() {
     if (initailized) return socket;
 
-    socket = io("https://ai-prompt-answer-generator.onrender.com", {
+    socket = io("http://localhost:5000", {
         withCredentials: true
     });
 
@@ -20,7 +22,16 @@ async function initsocket() {
 
 export const sendmessage = (message) => async (dispatch) => {
     const sock = await initsocket();
+    // if (count < 1) {
+    //     dispatch(creatchat());
+    //     count++;
+    // }
     questions = [...questions, message];
+    // try {
+    //     dispatch(updatechat(questions));
+    // } catch (error) {
+    //     console.log(error);
+    // }
     sock.emit("ai-message", message);
     dispatch(loadquestions(questions));
 };

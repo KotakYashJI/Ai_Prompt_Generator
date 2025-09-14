@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const Messageschema = mongoose.Schema({
-    chat: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
     message: {
         type: String,
         required: true

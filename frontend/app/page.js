@@ -6,7 +6,7 @@ import { faArrowUpRightFromSquare, faBars, faXmark, faPencil, faTrash, faShare }
 import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadloginuser } from '@/actions/user.action'
-import { creatchat, deletechat, loadallchats } from '@/actions/chat.action'
+import { creatchat, deletechat, getsinglechat, loadallchats } from '@/actions/chat.action'
 
 const Page = () => {
   const questions = useSelector((state) => state.messages.questions)
@@ -36,8 +36,7 @@ const Page = () => {
   }
 
   const handlesinglechat = (id) => {
-    dispatch(singlechatmessages(id));
-    setselectedchatid(id);
+    dispatch(getsinglechat(id));
   }
 
   useEffect(() => {
@@ -71,7 +70,7 @@ const Page = () => {
             allchats?.map((chat, index) => (
               <div key={chat._id} className="relative">
                 <p
-                  //onClick={() => handlesinglechat(chat._id)}
+                  onClick={() => handlesinglechat(chat._id)}
                   className="group flex justify-between items-center bg-gray-600 rounded-xl text-white text-xs sm:text-sm md:text-base px-3 py-2 w-full hover:bg-gray-500 transition-all break-words cursor-pointer"
                 >
                   <span className="truncate max-w-[85%]">{chat.chat}</span>

@@ -18,10 +18,10 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/user",Userroute);
+app.use("/user", Userroute);
 
-app.use("/api/chat",Chatroute);
+app.use("/api/chat", Chatroute);
 
-app.use("/api/message",Messageroute);
+app.use("/api/message", Messageroute);
 
 export default app;

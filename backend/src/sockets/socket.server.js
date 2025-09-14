@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 import Usermodel from "../models/user.model.js";
 import Messagemodel from "../models/message.model.js";
 import PromptModel from "../models/prompt.model.js";
+import { sendanswer, sendquestion } from "../controllers/message.controller.js";
 
 export const SocketServer = (httpserver) => {
     const io = new Server(httpserver, {
@@ -36,9 +37,32 @@ export const SocketServer = (httpserver) => {
     io.on("connection", (socket) => {
         console.log("A user is Connected", socket.id);
         socket.on("ai-message", async (data) => {
-            const prompt = await GeneratePrompt(data);
+            const question = data;
+            const user = socket.user._id;
+            const newquestion = await sendquestion({ question, user });
+            const memory = (await Messagemodel.find({ user: user }).sort({ createdAt: -1 }).limit(10).lean()).reverse();
+            const stm = memory.map((item) => {
+                return {
+                    role: item.role,
+                    parts: [{ text: item.message }]
+                }
+            });
+            const prompt = await GeneratePrompt([...stm]);
+            const newprompt = await PromptModel.create({
+                prompt: prompt,
+                user: user,
+                role: "model"
+            });
+            const allprompts = (await PromptModel.find({ user: user }).sort({ createdAt: -1 }).limit(20).lean()).reverse();
+            const pstm = allprompts.map((item) => {
+                return {
+                    role: item.role,
+                    prompt: item.prompt
+                }
+            });
             socket.emit("ai-prompt", prompt);
-            const answer = await GenerateAnswer(prompt);
+            const answer = await GenerateAnswer([...prompt]);
+            const newanswer = await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
         })
         socket.on("disconnect", () => {

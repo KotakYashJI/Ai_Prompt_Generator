@@ -1,4 +1,5 @@
 import Chatmodel from "../models/chat.model.js";
+import { chatwords } from "../services/chatwords.service.js";
 
 export const createchat = async (req, res) => {
     const user = req.user;
@@ -6,6 +7,7 @@ export const createchat = async (req, res) => {
         const newchat = await Chatmodel.create({
             user: user._id
         });
+        req.chat = newchat;
         res.status(201).json({
             message: "Chat created successfully",
             newchat
@@ -34,33 +36,37 @@ export const getallchats = async (req, res) => {
 }
 
 export const getsinglechat = async (req, res) => {
-    const { chatid } = req.body;
+    const chatid = req.params.id;
     try {
-        const singlechat = await Chatmodel.findOne({_id:chatid});
+        const singlechat = await Chatmodel.findOne({ _id: chatid });
         res.status(200).json({
-            message:"Single Chat found",
+            message: "Single Chat found",
             singlechat
         });
     } catch (error) {
         res.status(500).json({
-            message:error
+            message: error
         });
     }
 }
 
-export const deletechat = async (req,res) => {
+export const deletechat = async (req, res) => {
     const chatid = req.params.id;
     try {
         const deletedchat = await Chatmodel.deleteOne({
-            _id:chatid
+            _id: chatid
         });
         res.status(200).json({
-            message:"chat deleted",
+            message: "chat deleted",
             deletedchat
         });
     } catch (error) {
         res.status(500).json({
-            message:error
+            message: error
         })
     }
+}
+
+export const updatechats = async (req, res) => {
+    console.log(req);
 }
