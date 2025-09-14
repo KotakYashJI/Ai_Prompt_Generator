@@ -11,7 +11,7 @@ import { sendanswer, sendquestion } from "../controllers/message.controller.js";
 export const SocketServer = (httpserver) => {
     const io = new Server(httpserver, {
         cors: {
-            origin: "https://ai-prompt-generator-rosy-five.vercel.app",
+            origin: process.env.Socket_Origin,
             credentials: true
         }
     });
@@ -40,28 +40,41 @@ export const SocketServer = (httpserver) => {
             const question = data;
             const user = socket.user._id;
             const newquestion = await sendquestion({ question, user });
-            const memory = (await Messagemodel.find({ user: user }).sort({ createdAt: -1 }).limit(10).lean()).reverse();
+            let memory = await Messagemodel.find({
+                $and: [
+                    {
+                        user: user
+                    },
+                    {
+                        role: "user"
+                    }
+                ]
+            }).sort({ createdAt: -1 }).limit(20).lean();
+            memory = memory.reverse();
+            memory = [...memory, newquestion];
             const stm = memory.map((item) => {
                 return {
                     role: item.role,
                     parts: [{ text: item.message }]
                 }
             });
-            const prompt = await GeneratePrompt([...stm]);
+            const prompt = await GeneratePrompt(stm);
             const newprompt = await PromptModel.create({
                 prompt: prompt,
                 user: user,
                 role: "model"
             });
-            const allprompts = (await PromptModel.find({ user: user }).sort({ createdAt: -1 }).limit(20).lean()).reverse();
+            let allprompts = await PromptModel.find({ user: user }).sort({ createdAt: -1 }).limit(20).lean();
+            allprompts = allprompts.reverse();
+            allprompts = [...allprompts,newprompt];
             const pstm = allprompts.map((item) => {
                 return {
                     role: item.role,
-                    prompt: item.prompt
+                    parts: [{ text: Array.isArray(item.prompt) ? item.prompt.join(" ") : item.prompt }]
                 }
             });
             socket.emit("ai-prompt", prompt);
-            const answer = await GenerateAnswer([...pstm]);
+            const answer = await GenerateAnswer(pstm);
             const newanswer = await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
         })

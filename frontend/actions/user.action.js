@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import API from "../API/index.js";
 import { loadusers } from "@/slices/user.slice.js";
+import Address from "@/srcApi.js";
 
 export const registeruser = (user) => async (dispatch) => {
     try {
@@ -13,7 +14,7 @@ export const registeruser = (user) => async (dispatch) => {
             draggable: false,
             pauseOnHover: false
         });
-        location.href = "https://ai-prompt-generator-rosy-five.vercel.app";
+        location.href = `${Address}`;
     } catch (error) {
         toast.error(error.response.data.message, {
             autoClose: true,
@@ -30,7 +31,7 @@ export const loginuser = (user) => async (dispatch) => {
         const loginuser = await API.post("/user/login", user);
         console.log(loginuser);
         dispatch(loadusers(loginuser.data.isuserexist));
-        location.href = "https://ai-prompt-generator-rosy-five.vercel.app";
+        location.href = `${Address}`;
         toast.success(loginuser.data.message, {
             autoClose: true,
             closeButton: false,
@@ -56,7 +57,7 @@ export const loadloginuser = () => async (dispatch) => {
         const loggedinuser = await API.get("/user/logedinuser");
         dispatch(loadusers(loggedinuser.data.user));
     } catch (error) {
-        location.href = `https://ai-prompt-generator-rosy-five.vercel.app/user/login`
+        location.href = `${Address}/user/login`
         dispatch(loadusers(null));
         toast.error(error.response.data.message, {
             autoClose: true,
