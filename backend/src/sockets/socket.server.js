@@ -17,14 +17,8 @@ export const SocketServer = (httpserver) => {
     });
 
     io.use(async (socket, next) => {
-        console.log(socket);
-        
         const rawcookies = socket.handshake.headers?.cookie || "";
-        console.log(rawcookies);
-        
         const cookies = cookie.parse(rawcookies);
-        console.log(cookies);
-        
         const token = cookies.token;
         if (!token) return next(new Error("token not found please login first"));
         try {
