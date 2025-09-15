@@ -14,21 +14,21 @@ export const creatchat = () => async (dispatch) => {
         //console.log(newchat.data.newchat);
         const Allchats = await API.get("/api/chat");
         dispatch(loadchats(Allchats.data.allchats));
-        toast.success("chat created", {
-            autoClose: true,
-            closeButton: false,
-            closeOnClick: false,
-            draggable: false,
-            pauseOnHover: false
-        });
+        // toast.success("chat created", {
+        //     autoClose: true,
+        //     closeButton: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     pauseOnHover: false
+        // });
     } catch (error) {
-        toast.error(error.response.data.message, {
-            autoClose: true,
-            closeButton: false,
-            closeOnClick: false,
-            draggable: false,
-            pauseOnHover: false
-        });
+        // toast.error(error.response.data.message, {
+        //     autoClose: true,
+        //     closeButton: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     pauseOnHover: false
+        // });
         location.href = "http://localhost:3000/user/login";
     }
 };
@@ -56,13 +56,13 @@ export const deletechat = (chatid) => async (dispatch) => {
         await API.post(`/api/chat/${chatid}`);
         const Allchats = await API.get("/api/chat");
         dispatch(loadchats(Allchats.data.allchats));
-        toast.error("chat deleted", {
-            autoClose: true,
-            closeButton: false,
-            closeOnClick: false,
-            draggable: false,
-            pauseOnHover: false
-        })
+        // toast.error("chat deleted", {
+        //     autoClose: true,
+        //     closeButton: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     pauseOnHover: false
+        // })
     } catch (error) {
         console.log(error);
     }
