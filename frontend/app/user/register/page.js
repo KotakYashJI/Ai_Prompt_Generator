@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import Address from "@/srcApi";
 
 const Page = () => {
   const {
@@ -119,7 +120,7 @@ const Page = () => {
         </div>
 
         <div className="text-xl">
-          <p>Aready have an account please ...<Link className="text-blue-400" href="http://localhost:3000/user/login">Login</Link></p>
+          <p>Aready have an account please ...<Link className="text-blue-400" href={`${Address}/user.login`}>Login</Link></p>
         </div>
 
         <div>
