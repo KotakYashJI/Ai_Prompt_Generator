@@ -12,7 +12,7 @@ let count = 0;
 async function initsocket() {
     if (initailized) return socket;
 
-    socket = io("https://ai-prompt-answer-generator.onrender.com", {
+    socket = io("http://localhost:5000", {
         withCredentials: true
     });
 
