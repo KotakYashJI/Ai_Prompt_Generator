@@ -10,7 +10,6 @@ export const GenerateAnswer = async (prompt) => {
         contents: prompt,
         config: {
             systemInstruction: `
-            you get all prompts in array format
             you have to read all prompts and answer it step by step
             you have to generate proper and accurate answer of prompts
             do not use star pattern use points and generate answer in point wise

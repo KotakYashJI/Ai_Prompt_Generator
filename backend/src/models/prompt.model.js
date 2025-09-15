@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const PromptSchema = mongoose.Schema({
     prompt: {
-        type: Array,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     user: {

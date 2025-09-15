@@ -44,41 +44,24 @@ export const SocketServer = (httpserver) => {
             const user = socket.user._id;
             const newquestion = await sendquestion({ question, user });
             let memory = await Messagemodel.find({
-                $and: [
-                    {
-                        user: user
-                    },
-                    {
-                        role: "user"
-                    }
-                ]
+                user: user
             }).sort({ createdAt: -1 }).limit(20).lean();
-            memory = memory.reverse();
-            memory = [...memory, newquestion];
-            const stm = memory.map((item) => {
-                return {
-                    role: item.role,
-                    parts: [{ text: item.message }]
-                }
-            });
+            memory = [...memory.reverse(), newquestion];
+            const stm = memory.map((item) => ({
+                role: item.role,
+                parts: [{ text: item.message }]
+            }));
             const prompt = await GeneratePrompt(stm);
-            const newprompt = await PromptModel.create({
+            await PromptModel.create({
                 prompt: prompt,
                 user: user,
                 role: "model"
             });
             let allprompts = await PromptModel.find({ user: user }).sort({ createdAt: -1 }).limit(20).lean();
-            allprompts = allprompts.reverse();
-            allprompts = [...allprompts,newprompt];
-            const pstm = allprompts.map((item) => {
-                return {
-                    role: item.role,
-                    parts: [{ text: Array.isArray(item.prompt) ? item.prompt.join(" ") : item.prompt }]
-                }
-            });
-            socket.emit("ai-prompt", prompt);
-            const answer = await GenerateAnswer(pstm);
-            const newanswer = await sendanswer({ answer, user });
+            const pstm = allprompts.map(item => ( item.prompt));
+            socket.emit("ai-prompt", pstm);
+            const answer = await GenerateAnswer(prompt);
+            await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
         })
         socket.on("disconnect", () => {
