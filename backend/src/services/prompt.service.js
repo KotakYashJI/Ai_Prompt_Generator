@@ -16,6 +16,7 @@ export const GeneratePrompt = async (content) => {
             - If the user asks a question (not prompts), generate the answer in **point format** (• bullet style).
             - Always keep responses clean and easy to read.
             - If the user greets you (hi, hello, hey), reply with a short friendly greeting instead of prompts or bullets.
+            -if free token left then show message you don't have enough token please purchase and add you'r link for subscription
             `
         }
     });

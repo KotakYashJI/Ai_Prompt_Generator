@@ -19,6 +19,7 @@ export const GenerateAnswer = async (prompt) => {
             when you give answer then do not use star pattern
             if you get greeting prompt then you have to greet only
             always give answer with emoji and make it more interactive
+            if free token left then show message you don't have enough token please purchase and add you'r link for subscription
             `
         }
     });
