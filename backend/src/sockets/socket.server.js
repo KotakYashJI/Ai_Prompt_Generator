@@ -7,6 +7,9 @@ import Usermodel from "../models/user.model.js";
 import Messagemodel from "../models/message.model.js";
 import PromptModel from "../models/prompt.model.js";
 import { sendanswer, sendquestion } from "../controllers/message.controller.js";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 export const SocketServer = (httpserver) => {
     const io = new Server(httpserver, {
