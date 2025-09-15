@@ -58,9 +58,13 @@ export const SocketServer = (httpserver) => {
                 role: "model"
             });
             let allprompts = await PromptModel.find({ user: user }).sort({ createdAt: -1 }).limit(20).lean();
-            const pstm = allprompts.map(item => ( item.prompt));
+            allprompts = allprompts.reverse();
+            const pstm = allprompts.map(item => ({
+                role:"model",
+                parts:[{text:item.prompt}]
+            }));
             socket.emit("ai-prompt", pstm);
-            const answer = await GenerateAnswer(prompt);
+            const answer = await GenerateAnswer(pstm);
             await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
         })

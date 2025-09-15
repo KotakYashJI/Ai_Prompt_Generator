@@ -17,7 +17,7 @@ export const GeneratePrompt = async (content) => {
             - Always keep responses clean and easy to read.
             - If the user greets you (hi, hello, hey), reply with a short friendly greeting instead of prompts or bullets.
             - if prompt length is grater then 10 words then use array otherwise not
-            -if free token left then show message you don't have enough token please purchase and add you'r link for subscription
+            - if free token left then show message you don't have enough token
             `
         }
     });
