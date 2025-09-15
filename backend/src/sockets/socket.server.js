@@ -11,6 +11,9 @@ import dotenv from "dotenv"
 
 dotenv.config();
 
+console.log(process.env.Socket_Origin);
+
+
 export const SocketServer = (httpserver) => {
     const io = new Server(httpserver, {
         cors: {
