@@ -64,7 +64,7 @@ export const SocketServer = (httpserver) => {
                 parts:[{text:item.prompt}]
             }));
             socket.emit("ai-prompt", prompt);
-            const answer = await GenerateAnswer(pstm);
+            const answer = await GenerateAnswer(prompt);
             await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
         })
