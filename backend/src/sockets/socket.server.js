@@ -63,7 +63,7 @@ export const SocketServer = (httpserver) => {
                 role:"model",
                 parts:[{text:item.prompt}]
             }));
-            socket.emit("ai-prompt", pstm);
+            socket.emit("ai-prompt", prompt);
             const answer = await GenerateAnswer(pstm);
             await sendanswer({ answer, user });
             socket.emit("prompt-answer", answer);
